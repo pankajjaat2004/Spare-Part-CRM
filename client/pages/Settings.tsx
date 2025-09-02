@@ -1,6 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -16,6 +17,7 @@ import {
   Save,
   Users,
   Palette,
+  Pencil,
 } from "lucide-react";
 
 export default function Settings() {
@@ -23,6 +25,8 @@ export default function Settings() {
     name: "Admin User",
     role: "admin" as const,
   };
+
+  const [isEditingCompany, setIsEditingCompany] = useState(false);
 
   return (
     <Layout userRole={user.role} userName={user.name}>
@@ -73,31 +77,44 @@ export default function Settings() {
 
           <TabsContent value="general" className="space-y-6">
             <Card>
-              <CardHeader>
+              <CardHeader className="flex-row items-center justify-between">
                 <CardTitle>Company Information</CardTitle>
+                <div className="flex items-center gap-2">
+                  {!isEditingCompany ? (
+                    <Button variant="outline" className="flex items-center gap-2" onClick={() => setIsEditingCompany(true)}>
+                      <Pencil className="w-4 h-4" />
+                      Edit
+                    </Button>
+                  ) : (
+                    <Button className="flex items-center gap-2" onClick={() => setIsEditingCompany(false)}>
+                      <Save className="w-4 h-4" />
+                      Apply Changes
+                    </Button>
+                  )}
+                </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="companyName">Company Name</Label>
-                    <Input id="companyName" defaultValue="SpareParts CRM System" />
+                    <Input id="companyName" defaultValue="SpareParts CRM System" disabled={!isEditingCompany} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="gstNumber">GST Number</Label>
-                    <Input id="gstNumber" defaultValue="27ABCDE1234F1Z5" />
+                    <Input id="gstNumber" defaultValue="27ABCDE1234F1Z5" disabled={!isEditingCompany} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Contact Email</Label>
-                    <Input id="email" type="email" defaultValue="admin@spareparts.com" />
+                    <Input id="email" type="email" defaultValue="admin@spareparts.com" disabled={!isEditingCompany} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Contact Phone</Label>
-                    <Input id="phone" defaultValue="+91 98765 43210" />
+                    <Input id="phone" defaultValue="+91 98765 43210" disabled={!isEditingCompany} />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="address">Business Address</Label>
-                  <Textarea id="address" defaultValue="123 Business District, Mumbai, Maharashtra - 400001" />
+                  <Textarea id="address" defaultValue="123 Business District, Mumbai, Maharashtra - 400001" disabled={!isEditingCompany} />
                 </div>
               </CardContent>
             </Card>
