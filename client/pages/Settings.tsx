@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { useTheme, type Theme } from "@/components/theme/ThemeProvider";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,9 +12,7 @@ import {
   Building,
   Shield,
   Bell,
-  Mail,
   Save,
-  Palette,
   Pencil,
 } from "lucide-react";
 
@@ -26,7 +23,6 @@ export default function Settings() {
   };
 
   const [isEditingCompany, setIsEditingCompany] = useState(false);
-  const { theme, setTheme } = useTheme();
 
   return (
     <Layout userRole={user.role} userName={user.name}>
@@ -48,7 +44,7 @@ export default function Settings() {
 
         {/* Settings Tabs */}
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="general" className="flex items-center gap-2">
               <Building className="w-4 h-4" />
               General
@@ -60,10 +56,6 @@ export default function Settings() {
             <TabsTrigger value="notifications" className="flex items-center gap-2">
               <Bell className="w-4 h-4" />
               Notifications
-            </TabsTrigger>
-            <TabsTrigger value="appearance" className="flex items-center gap-2">
-              <Palette className="w-4 h-4" />
-              Appearance
             </TabsTrigger>
           </TabsList>
 
@@ -210,39 +202,6 @@ export default function Settings() {
 
 
 
-          <TabsContent value="appearance" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Theme Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="theme">Default Theme</Label>
-                  <select
-                    id="theme"
-                    className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                    value={theme}
-                    onChange={(e) => setTheme(e.target.value as Theme)}
-                  >
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                    <option value="system">System</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="logoUrl">Company Logo URL</Label>
-                  <Input id="logoUrl" placeholder="https://example.com/logo.png" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Show branding</h4>
-                    <p className="text-sm text-muted-foreground">Display company branding in interface</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
         </Tabs>
       </div>
     </Layout>
