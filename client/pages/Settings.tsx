@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { useTheme, type Theme } from "@/components/theme/ThemeProvider";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,7 +15,6 @@ import {
   Bell,
   Mail,
   Save,
-  Users,
   Palette,
   Pencil,
 } from "lucide-react";
@@ -26,6 +26,7 @@ export default function Settings() {
   };
 
   const [isEditingCompany, setIsEditingCompany] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
     <Layout userRole={user.role} userName={user.name}>
@@ -47,7 +48,7 @@ export default function Settings() {
 
         {/* Settings Tabs */}
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="general" className="flex items-center gap-2">
               <Building className="w-4 h-4" />
               General
@@ -59,10 +60,6 @@ export default function Settings() {
             <TabsTrigger value="notifications" className="flex items-center gap-2">
               <Bell className="w-4 h-4" />
               Notifications
-            </TabsTrigger>
-            <TabsTrigger value="users" className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              Users
             </TabsTrigger>
             <TabsTrigger value="appearance" className="flex items-center gap-2">
               <Palette className="w-4 h-4" />
@@ -212,37 +209,6 @@ export default function Settings() {
           </TabsContent>
 
 
-          <TabsContent value="users" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>User Management</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Allow user registration</h4>
-                    <p className="text-sm text-muted-foreground">Enable self-registration for customers</p>
-                  </div>
-                  <Switch />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Email verification required</h4>
-                    <p className="text-sm text-muted-foreground">Require email verification for new accounts</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="defaultRole">Default User Role</Label>
-                  <select id="defaultRole" className="w-full px-3 py-2 border border-input rounded-md bg-background">
-                    <option>Customer</option>
-                    <option>Company</option>
-                    <option>Dealer</option>
-                  </select>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
           <TabsContent value="appearance" className="space-y-6">
             <Card>
@@ -252,10 +218,15 @@ export default function Settings() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="theme">Default Theme</Label>
-                  <select id="theme" className="w-full px-3 py-2 border border-input rounded-md bg-background">
-                    <option>Light</option>
-                    <option>Dark</option>
-                    <option>System</option>
+                  <select
+                    id="theme"
+                    className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                    value={theme}
+                    onChange={(e) => setTheme(e.target.value as Theme)}
+                  >
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="system">System</option>
                   </select>
                 </div>
                 <div className="space-y-2">
