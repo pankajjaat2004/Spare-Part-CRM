@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'system';
+export type Theme = 'system' | 'light' | 'dark';
 
 interface ThemeContextType {
   theme: Theme;
   actualTheme: 'light' | 'dark';
+  setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -14,6 +15,7 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
+  const [theme, setThemeState] = useState<Theme>('system');
   const [actualTheme, setActualTheme] = useState<'light' | 'dark'>('light');
 
   // Get the actual theme from system preference
@@ -24,34 +26,45 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return 'light';
   };
 
-  // Update the actual theme based on system preference
+  // Apply theme preference
   useEffect(() => {
-    const updateTheme = () => {
-      const systemTheme = getSystemTheme();
-      setActualTheme(systemTheme);
+    const applyTheme = (preferred: Theme) => {
+      const resolved = preferred === 'system' ? getSystemTheme() : preferred;
+      setActualTheme(resolved);
 
-      // Apply theme to document
       const root = document.documentElement;
       root.classList.remove('light', 'dark');
-      root.classList.add(systemTheme);
-
-      // Also set data attribute for compatibility
-      root.setAttribute('data-theme', systemTheme);
+      root.classList.add(resolved);
+      root.setAttribute('data-theme', resolved);
     };
 
-    // Set initial theme
-    updateTheme();
+    // Load stored preference
+    const stored = typeof window !== 'undefined' ? (localStorage.getItem('app-theme') as Theme | null) : null;
+    const effective = stored ?? theme;
+    setThemeState(stored ?? theme);
+    applyTheme(effective);
 
-    // Listen for system theme changes
+    // React to system changes only when on system mode
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', updateTheme);
+    const handleSystemChange = () => {
+      if (theme === 'system') applyTheme('system');
+    };
+    mediaQuery.addEventListener('change', handleSystemChange);
+    return () => mediaQuery.removeEventListener('change', handleSystemChange);
+  }, [theme]);
 
-    return () => mediaQuery.removeEventListener('change', updateTheme);
-  }, []);
+  const setTheme = (t: Theme) => {
+    setThemeState(t);
+    if (typeof window !== 'undefined') {
+      if (t === 'system') localStorage.removeItem('app-theme');
+      else localStorage.setItem('app-theme', t);
+    }
+  };
 
   const value: ThemeContextType = {
-    theme: 'system',
+    theme,
     actualTheme,
+    setTheme,
   };
 
   return (
