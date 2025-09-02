@@ -157,24 +157,10 @@ export default function Settings() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-medium">Two-factor authentication</h4>
-                    <p className="text-sm text-muted-foreground">Require 2FA for admin accounts</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
                     <h4 className="font-medium">Session timeout</h4>
                     <p className="text-sm text-muted-foreground">Auto-logout after inactivity</p>
                   </div>
                   <Input className="w-32" defaultValue="60" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Password complexity</h4>
-                    <p className="text-sm text-muted-foreground">Enforce strong password requirements</p>
-                  </div>
-                  <Switch defaultChecked />
                 </div>
               </CardContent>
             </Card>
