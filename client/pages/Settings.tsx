@@ -47,7 +47,7 @@ export default function Settings() {
 
         {/* Settings Tabs */}
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="general" className="flex items-center gap-2">
               <Building className="w-4 h-4" />
               General
