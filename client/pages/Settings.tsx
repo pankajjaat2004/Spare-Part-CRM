@@ -12,7 +12,6 @@ import {
   Building,
   Shield,
   Bell,
-  Database,
   Mail,
   Save,
   Users,
@@ -60,10 +59,6 @@ export default function Settings() {
             <TabsTrigger value="notifications" className="flex items-center gap-2">
               <Bell className="w-4 h-4" />
               Notifications
-            </TabsTrigger>
-            <TabsTrigger value="database" className="flex items-center gap-2">
-              <Database className="w-4 h-4" />
-              Database
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="w-4 h-4" />
@@ -216,34 +211,6 @@ export default function Settings() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="database" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Backup Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Automatic backups</h4>
-                    <p className="text-sm text-muted-foreground">Schedule regular database backups</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="backupFrequency">Backup Frequency</Label>
-                  <select id="backupFrequency" className="w-full px-3 py-2 border border-input rounded-md bg-background">
-                    <option>Daily</option>
-                    <option>Weekly</option>
-                    <option>Monthly</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="retentionPeriod">Retention Period (days)</Label>
-                  <Input id="retentionPeriod" defaultValue="30" />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
           <TabsContent value="users" className="space-y-6">
             <Card>
